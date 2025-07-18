@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles with dark mode support */
+@layer base {
+  body {
+    @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-200;
+  }
+}
+
+/* Custom styles that might still be needed */
+
+/* Question styling for form creation and submission */
+.question-container {
+  @apply mb-6 p-4 border-l-4 border-blue-500 bg-gray-50 dark:bg-gray-800 dark:border-indigo-400 rounded-r-md transition-colors duration-200;
+}
+
+.question-text {
+  @apply font-medium mb-2 dark:text-gray-200;
+}
+
+.required-indicator {
+  @apply text-red-600 dark:text-red-400 ml-1;
+}
+
+/* Any other custom styles that can't be easily replaced with Tailwind */
