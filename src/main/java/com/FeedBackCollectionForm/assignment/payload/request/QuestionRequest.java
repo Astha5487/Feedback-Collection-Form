@@ -25,6 +25,22 @@ public class QuestionRequest {
 
     @Valid
     private List<OptionRequest> options = new ArrayList<>();
+    
+    // For TEXT_WITH_LIMIT
+    private Integer wordLimit;
+    
+    // For RATING_SCALE
+    private Integer minRating;
+    private Integer maxRating;
+    private Integer defaultRating;
+    
+    // For DATE
+    private String dateFormat;
+    private String minDate;
+    private String maxDate;
+    
+    // Description/help text for the question
+    private String description;
 
     public String getText() {
         return text;
@@ -64,5 +80,69 @@ public class QuestionRequest {
 
     public void setOptions(List<OptionRequest> options) {
         this.options = options;
+    }
+    
+    public Integer getWordLimit() {
+        return wordLimit;
+    }
+    
+    public void setWordLimit(Integer wordLimit) {
+        this.wordLimit = wordLimit;
+    }
+    
+    public Integer getMinRating() {
+        return minRating;
+    }
+    
+    public void setMinRating(Integer minRating) {
+        this.minRating = minRating;
+    }
+    
+    public Integer getMaxRating() {
+        return maxRating;
+    }
+    
+    public void setMaxRating(Integer maxRating) {
+        this.maxRating = maxRating;
+    }
+    
+    public Integer getDefaultRating() {
+        return defaultRating;
+    }
+    
+    public void setDefaultRating(Integer defaultRating) {
+        this.defaultRating = defaultRating;
+    }
+    
+    public String getDateFormat() {
+        return dateFormat;
+    }
+    
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+    
+    public String getMinDate() {
+        return minDate;
+    }
+    
+    public void setMinDate(String minDate) {
+        this.minDate = minDate;
+    }
+    
+    public String getMaxDate() {
+        return maxDate;
+    }
+    
+    public void setMaxDate(String maxDate) {
+        this.maxDate = maxDate;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

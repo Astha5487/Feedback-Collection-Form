@@ -34,6 +34,18 @@ public class Question {
     private Boolean required = false;
 
     private Integer wordLimit;
+    
+    // Properties for RATING_SCALE
+    private Integer minRating;
+    private Integer maxRating;
+    private Integer defaultRating;
+    
+    // Properties for DATE
+    private String dateFormat;
+    private String minDate;
+    private String maxDate;
+    
+    private String description;
 
     public Long getId() {
         return id;
@@ -58,6 +70,34 @@ public class Question {
     public Integer getWordLimit() {
         return wordLimit;
     }
+    
+    public Integer getMinRating() {
+        return minRating;
+    }
+    
+    public Integer getMaxRating() {
+        return maxRating;
+    }
+    
+    public Integer getDefaultRating() {
+        return defaultRating;
+    }
+    
+    public String getDateFormat() {
+        return dateFormat;
+    }
+    
+    public String getMinDate() {
+        return minDate;
+    }
+    
+    public String getMaxDate() {
+        return maxDate;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -81,6 +121,34 @@ public class Question {
 
     public void setWordLimit(Integer wordLimit) {
         this.wordLimit = wordLimit;
+    }
+    
+    public void setMinRating(Integer minRating) {
+        this.minRating = minRating;
+    }
+    
+    public void setMaxRating(Integer maxRating) {
+        this.maxRating = maxRating;
+    }
+    
+    public void setDefaultRating(Integer defaultRating) {
+        this.defaultRating = defaultRating;
+    }
+    
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
+    }
+    
+    public void setMinDate(String minDate) {
+        this.minDate = minDate;
+    }
+    
+    public void setMaxDate(String maxDate) {
+        this.maxDate = maxDate;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

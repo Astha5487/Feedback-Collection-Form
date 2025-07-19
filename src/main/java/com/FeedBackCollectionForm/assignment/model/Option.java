@@ -13,8 +13,6 @@ import java.util.List;
 @Data // includes all getters, setters, constructors, equals, hashCode, toString
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class Option {
 
     @Id

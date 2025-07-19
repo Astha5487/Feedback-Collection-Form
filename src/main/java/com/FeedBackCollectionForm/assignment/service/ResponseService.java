@@ -56,7 +56,7 @@ public class ResponseService {
             answer.setResponse(savedResponse);
             answer.setQuestion(question);
 
-            if (question.getType() == QuestionType.TEXT) {
+            if (question.getType() == QuestionType.TEXT || question.getType() == QuestionType.TEXT_WITH_LIMIT) {
                 answer.setTextAnswer(answerRequest.getTextAnswer());
 
                 // Check word limit if set
@@ -66,7 +66,7 @@ public class ResponseService {
                         throw new RuntimeException("Answer exceeds word limit of " + question.getWordLimit() + " words");
                     }
                 }
-            } else if (question.getType() == QuestionType.MULTIPLE_CHOICE) {
+            } else if (question.getType() == QuestionType.MULTIPLE_CHOICE || question.getType() == QuestionType.SINGLE_SELECT) {
                 if (answerRequest.getSelectedOptionId() != null) {
                     Option option = optionRepository.findById(answerRequest.getSelectedOptionId())
                             .orElseThrow(() -> new RuntimeException("Option not found"));
@@ -77,13 +77,40 @@ public class ResponseService {
 
                     answer.setSelectedOption(option);
                 }
-            } else if (question.getType() == QuestionType.RATING) {
+            } else if (question.getType() == QuestionType.MULTI_SELECT) {
+                if (answerRequest.getSelectedOptionIds() != null && !answerRequest.getSelectedOptionIds().isEmpty()) {
+                    for (Long optionId : answerRequest.getSelectedOptionIds()) {
+                        Option option = optionRepository.findById(optionId)
+                                .orElseThrow(() -> new RuntimeException("Option not found"));
+
+                        if (!option.getQuestion().getId().equals(question.getId())) {
+                            throw new RuntimeException("Option does not belong to this question");
+                        }
+
+                        answer.addSelectedOption(option);
+                    }
+                }
+            } else if (question.getType() == QuestionType.RATING_SCALE) {
                 if (answerRequest.getRatingValue() != null) {
-                    // Typically ratings are between 1-5 or 1-10, but we'll allow any positive integer
-                    if (answerRequest.getRatingValue() < 1) {
-                        throw new RuntimeException("Rating value must be positive");
+                    // Validate rating against min/max if set
+                    if (question.getMinRating() != null && answerRequest.getRatingValue() < question.getMinRating()) {
+                        throw new RuntimeException("Rating value must be at least " + question.getMinRating());
+                    }
+                    if (question.getMaxRating() != null && answerRequest.getRatingValue() > question.getMaxRating()) {
+                        throw new RuntimeException("Rating value must be at most " + question.getMaxRating());
                     }
                     answer.setRatingValue(answerRequest.getRatingValue());
+                }
+            } else if (question.getType() == QuestionType.DATE) {
+                if (answerRequest.getDateValue() != null) {
+                    // Validate date against min/max if set
+                    if (question.getMinDate() != null && answerRequest.getDateValue().compareTo(question.getMinDate()) < 0) {
+                        throw new RuntimeException("Date must be on or after " + question.getMinDate());
+                    }
+                    if (question.getMaxDate() != null && answerRequest.getDateValue().compareTo(question.getMaxDate()) > 0) {
+                        throw new RuntimeException("Date must be on or before " + question.getMaxDate());
+                    }
+                    answer.setDateValue(answerRequest.getDateValue());
                 }
             }
 
@@ -185,15 +212,26 @@ public class ResponseService {
 
                 if (answerOpt.isPresent()) {
                     Answer answer = answerOpt.get();
-                    if (question.getType() == QuestionType.TEXT) {
+                    if (question.getType() == QuestionType.TEXT || question.getType() == QuestionType.TEXT_WITH_LIMIT) {
                         csv.append("\"").append(answer.getTextAnswer() != null ? answer.getTextAnswer().replace("\"", "\"\"") : "").append("\"");
-                    } else if (question.getType() == QuestionType.MULTIPLE_CHOICE) {
+                    } else if (question.getType() == QuestionType.MULTIPLE_CHOICE || question.getType() == QuestionType.SINGLE_SELECT) {
                         if (answer.getSelectedOption() != null) {
                             csv.append("\"").append(answer.getSelectedOption().getText().replace("\"", "\"\"")).append("\"");
                         }
-                    } else if (question.getType() == QuestionType.RATING) {
+                    } else if (question.getType() == QuestionType.MULTI_SELECT) {
+                        if (answer.getSelectedOptions() != null && !answer.getSelectedOptions().isEmpty()) {
+                            String optionsText = answer.getSelectedOptions().stream()
+                                .map(option -> option.getText())
+                                .collect(java.util.stream.Collectors.joining(", "));
+                            csv.append("\"").append(optionsText.replace("\"", "\"\"")).append("\"");
+                        }
+                    } else if (question.getType() == QuestionType.RATING_SCALE) {
                         if (answer.getRatingValue() != null) {
                             csv.append(answer.getRatingValue());
+                        }
+                    } else if (question.getType() == QuestionType.DATE) {
+                        if (answer.getDateValue() != null) {
+                            csv.append("\"").append(answer.getDateValue().replace("\"", "\"\"")).append("\"");
                         }
                     }
                 }
@@ -248,15 +286,26 @@ public class ResponseService {
 
             if (answerOpt.isPresent()) {
                 Answer answer = answerOpt.get();
-                if (question.getType() == QuestionType.TEXT) {
+                if (question.getType() == QuestionType.TEXT || question.getType() == QuestionType.TEXT_WITH_LIMIT) {
                     csv.append("\"").append(answer.getTextAnswer() != null ? answer.getTextAnswer().replace("\"", "\"\"") : "").append("\"");
-                } else if (question.getType() == QuestionType.MULTIPLE_CHOICE) {
+                } else if (question.getType() == QuestionType.MULTIPLE_CHOICE || question.getType() == QuestionType.SINGLE_SELECT) {
                     if (answer.getSelectedOption() != null) {
                         csv.append("\"").append(answer.getSelectedOption().getText().replace("\"", "\"\"")).append("\"");
                     }
-                } else if (question.getType() == QuestionType.RATING) {
+                } else if (question.getType() == QuestionType.MULTI_SELECT) {
+                    if (answer.getSelectedOptions() != null && !answer.getSelectedOptions().isEmpty()) {
+                        String optionsText = answer.getSelectedOptions().stream()
+                            .map(option -> option.getText())
+                            .collect(java.util.stream.Collectors.joining(", "));
+                        csv.append("\"").append(optionsText.replace("\"", "\"\"")).append("\"");
+                    }
+                } else if (question.getType() == QuestionType.RATING_SCALE) {
                     if (answer.getRatingValue() != null) {
                         csv.append(answer.getRatingValue());
+                    }
+                } else if (question.getType() == QuestionType.DATE) {
+                    if (answer.getDateValue() != null) {
+                        csv.append("\"").append(answer.getDateValue().replace("\"", "\"\"")).append("\"");
                     }
                 }
             }
@@ -310,15 +359,26 @@ public class ResponseService {
 
             if (answerOpt.isPresent()) {
                 Answer answer = answerOpt.get();
-                if (question.getType() == QuestionType.TEXT) {
+                if (question.getType() == QuestionType.TEXT || question.getType() == QuestionType.TEXT_WITH_LIMIT) {
                     csv.append("\"").append(answer.getTextAnswer() != null ? answer.getTextAnswer().replace("\"", "\"\"") : "").append("\"");
-                } else if (question.getType() == QuestionType.MULTIPLE_CHOICE) {
+                } else if (question.getType() == QuestionType.MULTIPLE_CHOICE || question.getType() == QuestionType.SINGLE_SELECT) {
                     if (answer.getSelectedOption() != null) {
                         csv.append("\"").append(answer.getSelectedOption().getText().replace("\"", "\"\"")).append("\"");
                     }
-                } else if (question.getType() == QuestionType.RATING) {
+                } else if (question.getType() == QuestionType.MULTI_SELECT) {
+                    if (answer.getSelectedOptions() != null && !answer.getSelectedOptions().isEmpty()) {
+                        String optionsText = answer.getSelectedOptions().stream()
+                            .map(option -> option.getText())
+                            .collect(java.util.stream.Collectors.joining(", "));
+                        csv.append("\"").append(optionsText.replace("\"", "\"\"")).append("\"");
+                    }
+                } else if (question.getType() == QuestionType.RATING_SCALE) {
                     if (answer.getRatingValue() != null) {
                         csv.append(answer.getRatingValue());
+                    }
+                } else if (question.getType() == QuestionType.DATE) {
+                    if (answer.getDateValue() != null) {
+                        csv.append("\"").append(answer.getDateValue().replace("\"", "\"\"")).append("\"");
                     }
                 }
             }

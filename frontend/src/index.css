@@ -2,26 +2,385 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base styles with dark mode support */
+:root {
+  /* Primary color - Vibrant indigo */
+  --color-primary-50: #eef2ff;
+  --color-primary-100: #e0e7ff;
+  --color-primary-200: #c7d2fe;
+  --color-primary-300: #a5b4fc;
+  --color-primary-400: #818cf8;
+  --color-primary-500: #6366f1;
+  --color-primary-600: #4f46e5;
+  --color-primary-700: #4338ca;
+  --color-primary-800: #3730a3;
+  --color-primary-900: #312e81;
+  --color-primary-950: #1e1b4b;
+  
+  /* Secondary color - Teal */
+  --color-secondary-50: #f0fdfa;
+  --color-secondary-100: #ccfbf1;
+  --color-secondary-200: #99f6e4;
+  --color-secondary-300: #5eead4;
+  --color-secondary-400: #2dd4bf;
+  --color-secondary-500: #14b8a6;
+  --color-secondary-600: #0d9488;
+  --color-secondary-700: #0f766e;
+  --color-secondary-800: #115e59;
+  --color-secondary-900: #134e4a;
+  --color-secondary-950: #042f2e;
+  
+  /* Accent color - Amber */
+  --color-accent-50: #fffbeb;
+  --color-accent-100: #fef3c7;
+  --color-accent-200: #fde68a;
+  --color-accent-300: #fcd34d;
+  --color-accent-400: #fbbf24;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+  --color-accent-700: #b45309;
+  --color-accent-800: #92400e;
+  --color-accent-900: #78350f;
+  --color-accent-950: #451a03;
+  
+  /* Neutral colors for text and backgrounds */
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e5e5e5;
+  --color-neutral-300: #d4d4d4;
+  --color-neutral-400: #a3a3a3;
+  --color-neutral-500: #737373;
+  --color-neutral-600: #525252;
+  --color-neutral-700: #404040;
+  --color-neutral-800: #262626;
+  --color-neutral-900: #171717;
+  --color-neutral-950: #0a0a0a;
+  
+  /* System colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+}
+
+/* Dark mode colors */
+.dark {
+  /* Primary color - Adjusted for dark mode */
+  --color-primary-50: #1e1b4b;
+  --color-primary-100: #312e81;
+  --color-primary-200: #3730a3;
+  --color-primary-300: #4338ca;
+  --color-primary-400: #4f46e5;
+  --color-primary-500: #6366f1;
+  --color-primary-600: #818cf8;
+  --color-primary-700: #a5b4fc;
+  --color-primary-800: #c7d2fe;
+  --color-primary-900: #e0e7ff;
+  --color-primary-950: #eef2ff;
+  
+  /* Secondary color - Adjusted for dark mode */
+  --color-secondary-50: #042f2e;
+  --color-secondary-100: #134e4a;
+  --color-secondary-200: #115e59;
+  --color-secondary-300: #0f766e;
+  --color-secondary-400: #0d9488;
+  --color-secondary-500: #14b8a6;
+  --color-secondary-600: #2dd4bf;
+  --color-secondary-700: #5eead4;
+  --color-secondary-800: #99f6e4;
+  --color-secondary-900: #ccfbf1;
+  --color-secondary-950: #f0fdfa;
+  
+  /* Accent color - Adjusted for dark mode */
+  --color-accent-50: #451a03;
+  --color-accent-100: #78350f;
+  --color-accent-200: #92400e;
+  --color-accent-300: #b45309;
+  --color-accent-400: #d97706;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #fbbf24;
+  --color-accent-700: #fcd34d;
+  --color-accent-800: #fde68a;
+  --color-accent-900: #fef3c7;
+  --color-accent-950: #fffbeb;
+  
+  /* Neutral colors - Adjusted for dark mode */
+  --color-neutral-50: #0a0a0a;
+  --color-neutral-100: #171717;
+  --color-neutral-200: #262626;
+  --color-neutral-300: #404040;
+  --color-neutral-400: #525252;
+  --color-neutral-500: #737373;
+  --color-neutral-600: #a3a3a3;
+  --color-neutral-700: #d4d4d4;
+  --color-neutral-800: #e5e5e5;
+  --color-neutral-900: #f5f5f5;
+  --color-neutral-950: #fafafa;
+  
+  /* System colors - Adjusted for dark mode */
+  --color-success: #059669;
+  --color-warning: #d97706;
+  --color-error: #dc2626;
+  --color-info: #2563eb;
+}
+
 @layer base {
+  html {
+    @apply text-gray-900;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    scroll-behavior: smooth;
+  }
+  
   body {
-    @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-200;
+    @apply bg-gradient-to-b from-primary-50 to-white min-h-screen;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+  
+  h1 {
+    @apply text-3xl md:text-5xl mb-6 text-gray-900 leading-tight;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  
+  h2 {
+    @apply text-2xl md:text-4xl mb-5 text-gray-800 leading-tight;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.03);
+  }
+  
+  h3 {
+    @apply text-xl md:text-3xl mb-4 text-gray-800 leading-snug;
+  }
+  
+  h4 {
+    @apply text-lg md:text-2xl mb-3 text-gray-700 leading-snug;
+  }
+  
+  p {
+    @apply mb-4 leading-relaxed;
+  }
+  
+  a:not(.btn) {
+    @apply text-primary-600 font-medium hover:text-primary-700 hover:underline transition-colors duration-200;
+  }
+  
+  strong, b {
+    @apply font-bold text-gray-900;
+  }
+  
+  .highlight {
+    @apply bg-secondary-100 text-secondary-800 px-1.5 py-0.5 rounded-md font-medium;
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-secondary-600;
+  }
+  
+  .important-text {
+    @apply text-accent-600 font-semibold;
+  }
+  
+  section {
+    @apply py-12 md:py-16;
+  }
+  
+  .container {
+    @apply px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl;
   }
 }
 
-/* Custom styles that might still be needed */
-
-/* Question styling for form creation and submission */
-.question-container {
-  @apply mb-6 p-4 border-l-4 border-blue-500 bg-gray-50 dark:bg-gray-800 dark:border-indigo-400 rounded-r-md transition-colors duration-200;
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 focus:ring-primary-500 transform hover:-translate-y-0.5 hover:shadow-lg;
+  }
+  
+  .btn-secondary {
+    @apply bg-gradient-to-r from-secondary-500 to-secondary-600 text-white hover:from-secondary-600 hover:to-secondary-700 focus:ring-secondary-500 transform hover:-translate-y-0.5 hover:shadow-lg;
+  }
+  
+  .btn-outline {
+    @apply border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:border-primary-300 focus:ring-primary-500 transform hover:-translate-y-0.5;
+  }
+  
+  .btn-danger {
+    @apply bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 focus:ring-red-500 transform hover:-translate-y-0.5 hover:shadow-lg;
+  }
+  
+  .btn-success {
+    @apply bg-gradient-to-r from-green-500 to-green-600 text-white hover:from-green-600 hover:to-green-700 focus:ring-green-500 transform hover:-translate-y-0.5 hover:shadow-lg;
+  }
+  
+  .btn-accent {
+    @apply bg-gradient-to-r from-accent-500 to-accent-600 text-white hover:from-accent-600 hover:to-accent-700 focus:ring-accent-500 transform hover:-translate-y-0.5 hover:shadow-lg;
+  }
+  
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+  
+  .btn-lg {
+    @apply px-6 py-3 text-base;
+  }
+  
+  .input {
+    @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 hover:border-primary-300 transition-colors duration-200;
+  }
+  
+  .label {
+    @apply block text-sm font-semibold text-gray-800 mb-2;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-shadow duration-300;
+  }
+  
+  .shadow-soft {
+    @apply shadow-lg shadow-gray-200/60;
+  }
+  
+  .form-group {
+    @apply mb-5;
+  }
+  
+  .form-input {
+    @apply block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500 hover:border-primary-300 transition-colors duration-200;
+  }
 }
 
-.question-text {
-  @apply font-medium mb-2 dark:text-gray-200;
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-.required-indicator {
-  @apply text-red-600 dark:text-red-400 ml-1;
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 rounded-full;
 }
 
-/* Any other custom styles that can't be easily replaced with Tailwind */
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full hover:bg-gray-400 transition-colors;
+}
+
+/* Animations */
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-bounce-in {
+  animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounceIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Loading animation */
+.loading-spinner {
+  @apply inline-block h-8 w-8 border-4 border-primary-200 rounded-full border-t-primary-600;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hover effects */
+.hover-lift {
+  @apply transition-transform duration-300;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+}
+
+.hover-scale {
+  @apply transition-transform duration-300;
+}
+
+.hover-scale:hover {
+  transform: scale(1.03);
+}
+
+/* Focus styles for accessibility */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-white;
+}
+
+/* Ensure form elements are accessible */
+input:focus, 
+textarea:focus, 
+select:focus, 
+button:focus {
+  @apply outline-none ring-2 ring-primary-500 ring-offset-1;
+}
+
+/* Improve form validation feedback */
+.form-error {
+  @apply text-red-600 text-sm mt-1 font-medium;
+}
+
+.input-error {
+  @apply border-red-300 focus:border-red-500 focus:ring-red-500;
+}
+
+.input-success {
+  @apply border-green-300 focus:border-green-500 focus:ring-green-500;
+}

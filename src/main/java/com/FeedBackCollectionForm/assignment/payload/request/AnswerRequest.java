@@ -11,6 +11,10 @@ public class AnswerRequest {
     private Long selectedOptionId;
 
     private Integer ratingValue;
+    
+    private java.util.List<Long> selectedOptionIds;
+    
+    private String dateValue;
 
     public Long getQuestionId() {
         return questionId;
@@ -42,5 +46,21 @@ public class AnswerRequest {
 
     public void setRatingValue(Integer ratingValue) {
         this.ratingValue = ratingValue;
+    }
+    
+    public java.util.List<Long> getSelectedOptionIds() {
+        return selectedOptionIds;
+    }
+    
+    public void setSelectedOptionIds(java.util.List<Long> selectedOptionIds) {
+        this.selectedOptionIds = selectedOptionIds;
+    }
+    
+    public String getDateValue() {
+        return dateValue;
+    }
+    
+    public void setDateValue(String dateValue) {
+        this.dateValue = dateValue;
     }
 }

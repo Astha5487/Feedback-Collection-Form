@@ -55,8 +55,11 @@ public class FormService {
 
             Question savedQuestion = questionRepository.save(question);
 
-            // Create options for multiple-choice questions
-            if (questionRequest.getType() == QuestionType.MULTIPLE_CHOICE) {
+            // Create options for question types that need options
+            if (questionRequest.getType() == QuestionType.MULTIPLE_CHOICE || 
+                questionRequest.getType() == QuestionType.SINGLE_SELECT || 
+                questionRequest.getType() == QuestionType.MULTI_SELECT) {
+                
                 for (int j = 0; j < questionRequest.getOptions().size(); j++) {
                     OptionRequest optionRequest = questionRequest.getOptions().get(j);
                     Option option = new Option();
@@ -65,6 +68,28 @@ public class FormService {
                     option.setQuestion(savedQuestion);
                     optionRepository.save(option);
                 }
+            }
+            
+            // Set additional properties based on question type
+            if (questionRequest.getType() == QuestionType.TEXT_WITH_LIMIT) {
+                question.setWordLimit(questionRequest.getWordLimit());
+                questionRepository.save(question);
+            } else if (questionRequest.getType() == QuestionType.RATING_SCALE) {
+                question.setMinRating(questionRequest.getMinRating());
+                question.setMaxRating(questionRequest.getMaxRating());
+                question.setDefaultRating(questionRequest.getDefaultRating());
+                questionRepository.save(question);
+            } else if (questionRequest.getType() == QuestionType.DATE) {
+                question.setDateFormat(questionRequest.getDateFormat());
+                question.setMinDate(questionRequest.getMinDate());
+                question.setMaxDate(questionRequest.getMaxDate());
+                questionRepository.save(question);
+            }
+            
+            // Set description if provided
+            if (questionRequest.getDescription() != null) {
+                question.setDescription(questionRequest.getDescription());
+                questionRepository.save(question);
             }
         }
 
