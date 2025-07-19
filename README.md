@@ -129,12 +129,5 @@ frontend/
 └── index.html        # HTML template
 ```
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Spring Boot for the robust backend framework
-- React and Tailwind CSS for the modern frontend
-- All open-source libraries used in this project
+## Project Screenshot
+![screenshot](<img width="1437" height="783" alt="Image" src="https://github.com/user-attachments/assets/2a5c899f-9175-4391-b5a7-77d153604f08" />)
