@@ -130,4 +130,5 @@ frontend/
 ```
 
 ## Project Screenshot
-![screenshot](<img width="1437" height="783" alt="Image" src="https://github.com/user-attachments/assets/2a5c899f-9175-4391-b5a7-77d153604f08" />)
+![App Screenshot](https://github.com/user-attachments/assets/2a5c899f-9175-4391-b5a7-77d153604f08)
+
