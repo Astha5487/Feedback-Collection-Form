@@ -94,6 +94,7 @@ Edit `frontend/.env` to configure:
 3. Share the generated public URL with customers
 4. View responses in the dashboard
 5. Export responses to CSV if needed
+6. Use the theme toggle to switch between light and dark modes.
 
 ### Customer/End User
 1. Access the form via the shared public URL
